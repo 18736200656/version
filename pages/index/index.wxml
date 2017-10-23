@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<view class="mian">
+  <view wx:for="{{}}" wx:key="{{index}}">
+    <image src="{{item.src}}"></image>
+    <text class="">{{item.name}}</text>
+  </view>
+</view>
+
+<view>
+  <text class="row-view-title"></text>
+  <view class="flex-wrap-row">
+    <view class="flex-item" hover="{{true}}" hover-class="hover-style" wx:for="{{imgList}}">
+      <image src="{{item.url}}" class="img"></image>
+      <text class="text-color">{{item.text}}</text>
+    </view>
+  </view>
+</view>
+ <swiper class="swiper" indicator-dots="true" indicator-active-color="#ddd" autoplay="true" interval="2000" duration="1000" circular="true">  
+   <block wx:for="{{images}}" wx:for-index="index">  
+    <swiper-item>  
+     <image src="{{item.picurl}}" class="slide-image" mode="aspectFill"/>  
+    </swiper-item>  
+   </block>  
+  </swiper>
