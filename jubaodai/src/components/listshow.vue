@@ -1,13 +1,17 @@
 <template>
 <div>	
 	<div id="container">
-		<ul>
+		<ul
+		 	v-infinite-scroll="loadMore"
+		  infinite-scroll-disabled="loading"
+		  infinite-scroll-distance="10"
+		>
 		  <li v-for="item in list">
-		  	<router-link :to="'/detail/'+item.id" tag="div">
+		  	<router-link :to="'/detail/'+item.goodsID" tag="div">
 				  <div class="imgBox">
-					   <img v-lazy.container="item.src" />
+					   <img v-lazy.container="item.goodsListImg" />
 						<div class="img_text">	
-							<span>{{item.desc}}</span>
+							<span>{{item.goodsName}}</span>
 						</div>
 				  </div>
 		   </router-link>
@@ -17,10 +21,12 @@
 </div>	
 </template>
 <style lang="less" type="text/less">
+*{margin:0;padding:0;}
 	li{
+		list-style: none;
 		float: left;
-		width:50%;
-		padding: 10px 5px;
+		width:46%;
+		padding: 5% 2%;
 		.imgBox{
 			border: 1px solid #999;
 			img{
@@ -32,7 +38,7 @@
 			margin-top: 5px;
 			span{
 				font: 16px/20px '';
-				color: orange;
+				color: #666;
 			}
 		}
 	}	
@@ -43,13 +49,13 @@
 	/*import {Lazyload} from 'mint-ui'
 	Vue.use(Lazyload);*/
 	import {mapState} from 'vuex'
-	import axios from 'axios'
+	
 	export default {
-		name:'Index',
+		name:'Listshow',
 		data(){
 			return {
 				list:[],
-				classID:3,
+				classID:1,
 				goodsID:1,
 				pageCode:5
 			}
@@ -61,16 +67,28 @@
 		methods:{
 			getList:function(){
 				let url='http://datainfo.duapp.com/shopdata/getGoods.php';
-				axios.get(`url?classID=${this.classID}&goodsID=${this.goodsID}$pageCode=${this.pageCode}&linenumber=10`)
+				this.$http.jsonp(url,{
+					params:{
+						classId:this.classID
+					}
+				})
 					.then(res=>{
 						this.list = res.data
 						console.log( res.data)
 					})
 					.catch(err=>console.log(err))
+			},
+			loadMore() {
+			  this.loading = true;
+			  setTimeout(() => {
+			    let last = this.list[this.list.length - 1];
+			    for (let i = 1; i <= 10; i++) {
+			      this.list.push(last + i);
+			    }
+			    this.loading = false;
+			  }, 2500);
 			}		
-		},
-		computed:{
-			...mapState(['list'])
 		}
+
 	}
 </script>

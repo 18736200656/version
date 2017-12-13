@@ -1,41 +1,35 @@
 <template>
-<div>	
+
 	<div id="container">
-		<ul>
-		  <li v-for="item in list">
-		  	<router-link :to="'/detail/'+item.id" tag="div">
-				  <div class="imgBox">
-					   <img v-lazy.container="item.src" />
-						<div class="img_text">	
-							<span>{{item.desc}}</span>
-						</div>
-				  </div>
-		   </router-link>
-		  </li>
-		</ul>
+	
+	  <div class="imgBox">
+	   	<img v-lazy.container="list.goodsListImg" />
+		<div class="img_text">	
+			<span>{{list.goodsName}}</span>
+		</div>
+	  </div>		
 	</div>
-</div>	
+
 </template>
 <style lang="less" type="text/less">
-	li{
-		float: left;
-		width:50%;
-		padding: 10px 5px;
+*{margin:0;padding:0;}
+
 		.imgBox{
 			border: 1px solid #999;
 			img{
-			width: 100%;
-			border-radius: 3px;
+				width: 96%;
+				padding:2%;
+				border-radius: 3px;
 			}
 		}
 		.img_text{
 			margin-top: 5px;
 			span{
 				font: 16px/20px '';
-				color: orange;
+				color: #666;
 			}
 		}
-	}	
+		
 
 	
 </style>
@@ -43,9 +37,9 @@
 	/*import {Lazyload} from 'mint-ui'
 	Vue.use(Lazyload);*/
 	import {mapState} from 'vuex'
-	import axios from 'axios'
+	
 	export default {
-		name:'Index',
+		name:'Listshow',
 		data(){
 			return {
 				list:[],
@@ -55,22 +49,26 @@
 			}
 
 		},
+		props:['id'],
 		created(){
 			this.getList();
 		},
 		methods:{
 			getList:function(){
 				let url='http://datainfo.duapp.com/shopdata/getGoods.php';
-				axios.get(`url?classID=${this.classID}&goodsID=${this.goodsID}$pageCode=${this.pageCode}&linenumber=10`)
+				this.$http.jsonp(url,{
+					params:{
+						classId:this.classID,
+						goodsID:this.$route.params.id
+					}
+				})
 					.then(res=>{
-						this.list = res.data
-						console.log( res.data)
+						this.list = res.data[0]
+						console.log( res.data[0])
 					})
 					.catch(err=>console.log(err))
 			}		
-		},
-		computed:{
-			...mapState(['list'])
 		}
+
 	}
 </script>

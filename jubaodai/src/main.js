@@ -5,11 +5,11 @@ import App from './App'
 import router from './router'
 import VueSource from 'vue-resource'
 
-import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import Mint from 'mint-ui'
+Vue.use(Mint)
 
-Vue.use(MintUI);
-Vue.use(VueSource);
+Vue.use(VueSource)
 
 Vue.config.productionTip = false
 
