@@ -51,5 +51,15 @@ export default new Router({
       name: 'Loading',
       component: Loading
     }
-  ]
+  ],
+  scrollBehavior(to,from,savePosition){
+    if(savePosition){
+      return savePosition
+    }else{
+      if(from.meta.keepAlive){
+        from.meta.savePosition = document.body.scrollTop;
+      }
+      return {x:0,y:to.meta.savePosition || 0}
+    } 
+  }
 })
