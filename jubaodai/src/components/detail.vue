@@ -58,7 +58,6 @@
 				let url='http://datainfo.duapp.com/shopdata/getGoods.php';
 				this.$http.jsonp(url,{
 					params:{
-						classId:this.classID,
 						goodsID:this.$route.params.id
 					}
 				})

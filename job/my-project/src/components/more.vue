@@ -33,6 +33,16 @@ export default{
 
 		}
 	},
+	computed:{
+		'photos':function(){
+			var url='http://datainfo.duapp.com/shopdata/getGoods.php'
+			return this.$http.jsonp(url,{classID:2})
+			.then(res=>{
+				this.photos = res.data
+			})
+			.catch(error=>console.log(error))
+		}
+	},
 	created:{
 	 setTimeout(function () {
 	   $("#items").children("li").each(function (index, val) {

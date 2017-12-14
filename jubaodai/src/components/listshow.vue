@@ -4,12 +4,12 @@
 		<ul
 		 	v-infinite-scroll="loadMore"
 		  infinite-scroll-disabled="loading"
-		  infinite-scroll-distance="10"
-		>
+		  infinite-scroll-distance="10">
+		
 		  <li v-for="item in list">
 		  	<router-link :to="'/detail/'+item.goodsID" tag="div">
 				  <div class="imgBox">
-					   <img v-lazy.container="item.goodsListImg" />
+					  <img v-lazy.container="item.goodsListImg" />
 						<div class="img_text">	
 							<span>{{item.goodsName}}</span>
 						</div>
@@ -21,17 +21,18 @@
 </div>	
 </template>
 <style lang="less" type="text/less">
-*{margin:0;padding:0;}
+	*{margin:0;padding:0;}
 	li{
 		list-style: none;
 		float: left;
 		width:46%;
 		padding: 5% 2%;
 		.imgBox{
+			width: 100%;
 			border: 1px solid #999;
 			img{
-			width: 100%;
-			border-radius: 3px;
+				width: 100%;
+				border-radius: 3px;
 			}
 		}
 		.img_text{
@@ -46,10 +47,6 @@
 	
 </style>
 <script type="text/ecmascript-6">
-	/*import {Lazyload} from 'mint-ui'
-	Vue.use(Lazyload);*/
-	import {mapState} from 'vuex'
-	
 	export default {
 		name:'Listshow',
 		data(){
@@ -81,6 +78,7 @@
 			loadMore() {
 			  this.loading = true;
 			  setTimeout(() => {
+			  	this.classID++
 			    let last = this.list[this.list.length - 1];
 			    for (let i = 1; i <= 10; i++) {
 			      this.list.push(last + i);
